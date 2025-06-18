@@ -1,20 +1,19 @@
-<!-- Filename: index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Parallax</title>
+  <title>Parallax Effect</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
-      background-color: rgb(102, 189, 16);
+      background: linear-gradient(135deg, #1f4037, #99f2c8); /* Green gradient */
       overflow: hidden;
     }
 
@@ -29,28 +28,29 @@
 
     .mouse_move h2 {
       position: relative;
-      font-size: 100px;
-      color: white;
+      font-size: 80px;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
       z-index: 1;
     }
 
     .mouse_move img {
       position: absolute;
-      transition: transform 0.1s linear;
+      transition: transform 0.2s ease;
     }
 
     #img1 {
-      top: 80px;
-      left: 80px;
-      height: 250px;
-      width: 250px;
+      top: 50px;
+      left: 50px;
+      height: 200px;
+      width: 200px;
     }
 
     #img2 {
-      bottom: 80px;
-      right: 80px;
-      height: 250px;
-      width: 250px;
+      bottom: 50px;
+      right: 50px;
+      height: 200px;
+      width: 200px;
     }
   </style>
 </head>
@@ -58,18 +58,18 @@
   <div class="mouse_move">
     <img
       id="img1"
-      src="https://media.geeksforgeeks.org/wp-content/uploads/20210101144014/gfglogo.png"
+      src="https://cdn-icons-png.flaticon.com/512/415/415733.png"
       class="mouse"
-      data-value="5"
-      alt="Logo 1"
+      data-value="8"
+      alt="Leaf Icon"
     />
-    <h2>GeeksforGeeks</h2>
+    <h2>Welcome Nature</h2>
     <img
       id="img2"
-      src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20190710102234/download3.png"
+      src="https://cdn-icons-png.flaticon.com/512/2909/2909898.png"
       class="mouse"
-      data-value="-5"
-      alt="Logo 2"
+      data-value="-8"
+      alt="Tree Icon"
     />
   </div>
 
