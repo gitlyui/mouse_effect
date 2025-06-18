@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Parallax Effect</title>
+  <title>Parallax Nature</title>
   <style>
     * {
       margin: 0;
@@ -13,8 +12,15 @@
     }
 
     body {
-      background: linear-gradient(135deg, #1f4037, #99f2c8); /* Green gradient */
+      background: linear-gradient(135deg, #1f4037, #99f2c8);
       overflow: hidden;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
     }
 
     .mouse_move {
@@ -24,19 +30,27 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
 
     .mouse_move h2 {
       position: relative;
       font-size: 80px;
       color: #ffffff;
+      z-index: 2;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-      z-index: 1;
+      animation: fadeIn 2s ease forwards;
     }
 
     .mouse_move img {
       position: absolute;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, scale 0.2s ease;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    .mouse_move img:hover {
+      transform: scale(1.05);
     }
 
     #img1 {
@@ -44,6 +58,7 @@
       left: 50px;
       height: 200px;
       width: 200px;
+      animation-delay: 0.5s;
     }
 
     #img2 {
@@ -51,14 +66,28 @@
       right: 50px;
       height: 200px;
       width: 200px;
+      animation-delay: 0.7s;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
   </style>
 </head>
 <body>
+  <canvas id="particles"></canvas>
+
   <div class="mouse_move">
     <img
       id="img1"
-      src="https://images.unsplash.com/photo-1526779259212-939e64788e3c?q=80&w=874&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      src="https://images.unsplash.com/photo-1526779259212-939e64788e3c?q=80&w=874&auto=format&fit=crop"
       class="mouse"
       data-value="8"
       alt="Leaf Icon"
@@ -66,13 +95,14 @@
     <h2>Welcome Nature</h2>
     <img
       id="img2"
-      src="https://images.unsplash.com/photo-1526779259212-939e64788e3c?q=80&w=874&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      src="https://images.unsplash.com/photo-1526779259212-939e64788e3c?q=80&w=874&auto=format&fit=crop"
       class="mouse"
       data-value="-8"
       alt="Tree Icon"
     />
   </div>
 
+  <!-- Mouse Parallax -->
   <script>
     document.addEventListener("mousemove", function (event) {
       document.querySelectorAll(".mouse").forEach((shift) => {
@@ -82,6 +112,67 @@
         shift.style.transform = `translateX(${x}px) translateY(${y}px)`;
       });
     });
+  </script>
+
+  <!-- Glowing Floating Particles -->
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particlesArray;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      init();
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.5 - 0.25;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+        }
+      }
+
+      draw() {
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      particlesArray = [];
+      for (let i = 0; i < 100; i++) {
+        particlesArray.push(new Particle());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particlesArray.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
   </script>
 </body>
 </html>
