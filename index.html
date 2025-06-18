@@ -1,0 +1,87 @@
+<!-- Filename: index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parallax</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+    }
+
+    body {
+      background-color: rgb(102, 189, 16);
+      overflow: hidden;
+    }
+
+    .mouse_move {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .mouse_move h2 {
+      position: relative;
+      font-size: 100px;
+      color: white;
+      z-index: 1;
+    }
+
+    .mouse_move img {
+      position: absolute;
+      transition: transform 0.1s linear;
+    }
+
+    #img1 {
+      top: 80px;
+      left: 80px;
+      height: 250px;
+      width: 250px;
+    }
+
+    #img2 {
+      bottom: 80px;
+      right: 80px;
+      height: 250px;
+      width: 250px;
+    }
+  </style>
+</head>
+<body>
+  <div class="mouse_move">
+    <img
+      id="img1"
+      src="https://media.geeksforgeeks.org/wp-content/uploads/20210101144014/gfglogo.png"
+      class="mouse"
+      data-value="5"
+      alt="Logo 1"
+    />
+    <h2>GeeksforGeeks</h2>
+    <img
+      id="img2"
+      src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20190710102234/download3.png"
+      class="mouse"
+      data-value="-5"
+      alt="Logo 2"
+    />
+  </div>
+
+  <script>
+    document.addEventListener("mousemove", function (event) {
+      document.querySelectorAll(".mouse").forEach((shift) => {
+        const value = shift.getAttribute("data-value");
+        const x = (window.innerWidth - event.pageX * value) / 90;
+        const y = (window.innerHeight - event.pageY * value) / 90;
+        shift.style.transform = `translateX(${x}px) translateY(${y}px)`;
+      });
+    });
+  </script>
+</body>
+</html>
